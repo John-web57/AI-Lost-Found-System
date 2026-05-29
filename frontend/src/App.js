@@ -1,6 +1,7 @@
 import React from "react";
 import UploadItem from "./components/UploadItem";
 import ItemList from "./components/ItemList";
+import MatchFinder from "./components/MatchFinder";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <main>
         <UploadItem />
         <ItemList />
+        <MatchFinder />
       </main>
     </div>
   );

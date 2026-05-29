@@ -6,7 +6,7 @@ function ItemList() {
   const [filter, setFilter] = useState("all");
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/items")
+    axios.get("http://localhost:5000/api/items?matches=true")
       .then((res) => setItems(res.data))
       .catch((err) => console.error(err));
   }, []);
@@ -45,6 +45,21 @@ function ItemList() {
               <p className="item-meta">Location: {item.location}</p>
               {item.image && (
                 <img src={`http://localhost:5000/uploads/${item.image}`} alt={item.title} />
+              )}
+
+              {item.matchSuggestions?.length > 0 && (
+                <div className="match-suggestions">
+                  <h4>AI Match Suggestions</h4>
+                  <ul>
+                    {item.matchSuggestions.map((match) => (
+                      <li key={match._id}>
+                        <strong>{match.title}</strong> ({match.status})
+                        <span> - {match.location}</span>
+                        <span className="match-score">Score: {match.score}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               )}
             </article>
           ))}

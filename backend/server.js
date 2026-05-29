@@ -1,8 +1,13 @@
 const express = require("express");
+const http = require("http");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const { Server } = require("socket.io");
+const chatRoutes = require("./routes/chat");
+const Message = require("./models/Message");
 
 const app = express();
+const server = http.createServer(app);
 
 app.use(cors());
 app.use(express.json());
@@ -22,5 +27,33 @@ mongoose.connect(MONGO_URI, {
 
 const itemRoutes = require("./routes/items");
 app.use("/api/items", itemRoutes);
+app.use("/api/chat", chatRoutes);
 
-app.listen(5000, () => console.log("Server running on port 5000"));
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+  },
+});
+
+io.on("connection", (socket) => {
+  console.log("Socket connected:", socket.id);
+
+  socket.on("sendMessage", async ({ username, text }) => {
+    try {
+      const message = await Message.create({
+        username: username?.trim() || "Anonymous",
+        text: text?.trim(),
+      });
+      io.emit("newMessage", message);
+    } catch (err) {
+      console.error("Error saving chat message:", err);
+    }
+  });
+
+  socket.on("disconnect", () => {
+    console.log("Socket disconnected:", socket.id);
+  });
+});
+
+server.listen(5000, () => console.log("Server running on port 5000"));

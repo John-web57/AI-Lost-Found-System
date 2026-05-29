@@ -2,6 +2,7 @@ import React from "react";
 import UploadItem from "./components/UploadItem";
 import ItemList from "./components/ItemList";
 import MatchFinder from "./components/MatchFinder";
+import ChatRoom from "./components/ChatRoom";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <main>
         <UploadItem />
         <ItemList />
+        <ChatRoom />
         <MatchFinder />
       </main>
     </div>

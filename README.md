@@ -26,4 +26,5 @@ The React app runs on `http://localhost:3000`.
 - Images uploaded via the frontend are saved into `backend/uploads` and referenced in MongoDB.
 - Each item now includes a `lost`/`found` status so the board can distinguish reported lost items from found items.
 - The board also uses AI-powered text matching to suggest likely matches between lost and found reports.
+- A live Socket.io chat is available for real-time user messaging.
 - Next suggested steps: add authentication, cloud storage for images, and image-based AI matching.
